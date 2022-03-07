@@ -1,3 +1,4 @@
+import Nasa from './components/nasa.js';
 // eslint-disable-next-line no-undef,no-new
 new Vue({
 	el: '#app',
@@ -32,6 +33,7 @@ new Vue({
 			await axios
 				.get(coords)
 				.then((response) => {
+					if (!response) return;
 					this.city = response.data[0].name;
 					this.state = response.data[0].state;
 					this.cords.lat = response.data[0].lat;
@@ -39,8 +41,10 @@ new Vue({
 					this.country = response.data[0].country;
 					this.getWeather();
 				})
-				.catch((error) => {
-					console.log(error);
+				.catch(() => {
+					this.city = 'Tomsk';
+					alert('Город не существует: ');
+					this.getCity();
 				});
 		},
 		async getWeather() {
@@ -175,5 +179,9 @@ new Vue({
 				return Promise.reject(error);
 			},
 		);
+	},
+
+	components: {
+		'nasa-component': Nasa,
 	},
 });
