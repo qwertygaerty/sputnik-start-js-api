@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <meta
+            name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>gallery</title>
+    <link rel="stylesheet" href="css/gallery.css">
+</head>
+<body>
+
+<!-- Подключаем скрипты-->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="js/libs/vue.js" type="module"></script>
+<script src="js/gallery.js" type="module" defer></script>
+
+<main class="main-container" id="gallery">
+
+    <div class="search">
+        <div class="search__box">
+            <label>
+                <input type="text" class="search__input" placeholder="Поиск коллекции" v-model="inputQuery" v-on:keyup.enter="getSearch">
+            </label>
+            <button class="btn btn--block card__btn btn__secondary" @click="getSearch">Поиск</button>
+        </div>
+    </div>
+
+    <ul class="cards">
+        <li class="cards__item" v-if="isRandomCard">
+            <div class="card">
+                <img class="card__image" :src="randomCard.url" alt="randomCard">
+                <div class="card__content">
+                    <div class="card__title">{{randomCard.description}}</div>
+                    <p class="card__text">{{randomCard.user}}</p>
+                </div>
+            </div>
+        </li>
+
+        <template v-if="collections" v-for="c in collections">
+            <li class="cards__item" v-for="m in c.preview_photos">
+                <div class="card">
+                    <img class="card__image" :src="m.urls.small" alt="randomCard">
+                    <div class="card__content">
+                        <div class="card__title">{{c.title}}</div>
+                        <p class="card__text">{{c.user}}</p>
+                    </div>
+                </div>
+            </li>
+        </template>
+
+    </ul>
+
+</main>
+</body>
+</html>
